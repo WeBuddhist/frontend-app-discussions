@@ -1,8 +1,6 @@
 import React, { useContext, useMemo } from 'react';
 import PropTypes from 'prop-types';
 
-import { Badge, Icon } from '@openedx/paragon';
-import { CheckCircle, PushPin } from '@openedx/paragon/icons';
 import classNames from 'classnames';
 import { useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
@@ -101,34 +99,6 @@ const PostLink = ({
                   {isPostPreviewAvailable(previewBody) ? previewBody : intl.formatMessage(messages.postWithoutPreview)}
                 </span>
               </div>
-              {showAnsweredBadge && (
-                <Icon
-                  data-testid="check-icon"
-                  src={CheckCircle}
-                  className="text-success font-weight-500 ml-auto badge-padding"
-                >
-                  <span className="sr-only">{' '}answered</span>
-                </Icon>
-              )}
-              {canSeeReportedBadge && (
-                <Badge
-                  variant="danger"
-                  data-testid="reported-post"
-                  className={`font-weight-500 badge-padding ${showAnsweredBadge ? 'ml-2' : 'ml-auto'}`}
-                >
-                  {intl.formatMessage(messages.contentReported)}
-                  <span className="sr-only">{' '}reported</span>
-                </Badge>
-              )}
-              {pinned && (
-                <Icon
-                  src={PushPin}
-                  className={classNames('post-summary-icons-dimensions text-gray-700', {
-                    'ml-2': canSeeReportedBadge || showAnsweredBadge,
-                    'ml-auto': !canSeeReportedBadge && !showAnsweredBadge,
-                  })}
-                />
-              )}
             </div>
           </div>
           <AuthorLabel
@@ -148,6 +118,9 @@ const PostLink = ({
             createdAt={createdAt}
             preview
             showNewCountLabel={isPostRead}
+            showAnswered={showAnsweredBadge}
+            reported={Boolean(canSeeReportedBadge)}
+            pinned={pinned}
           />
         </div>
       </div>

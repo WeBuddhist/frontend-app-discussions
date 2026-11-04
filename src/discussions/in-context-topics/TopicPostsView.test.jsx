@@ -312,7 +312,7 @@ describe('InContext Topic Posts View', () => {
     await setupTopicsMockResponse();
     await renderComponent();
 
-    const addPostButton = await screen.findByText('Add a post');
+    const addPostButton = await screen.findByText('+ Add a post');
     await userEvent.click(addPostButton);
 
     const confirmationText = await screen.findByText(/send confirmation link/i);

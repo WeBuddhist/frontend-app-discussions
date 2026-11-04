@@ -82,6 +82,7 @@ const Reply = ({ responseId }) => {
   const profileImage = getConfig()?.ENABLE_PROFILE_IMAGE === 'true'
     ? Object.values(replyUsers ?? {})[0]?.profile?.image
     : null;
+  const avatarSource = profileImage?.hasImage ? profileImage : authorAvatar;
 
   return (
     <div className="d-flex flex-column mt-2.5 " data-testid={`reply-${id}`} role="listitem">
@@ -128,7 +129,7 @@ const Reply = ({ responseId }) => {
           <Avatar
             className={`ml-0.5 mt-0.5 border-0 ${colorClass ? `outline-${colorClass}` : 'outline-anonymous'}`}
             alt={author}
-            src={profileImage?.hasImage ? profileImage?.imageUrlSmall : authorAvatar?.imageUrlSmall}
+            src={avatarSource?.imageUrlMedium || avatarSource?.imageUrlSmall}
             style={{
               width: '32px',
               height: '32px',

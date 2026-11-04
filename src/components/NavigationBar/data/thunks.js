@@ -24,6 +24,8 @@ export default function fetchTab(courseId) {
           courseNumber: courseHomeCourseMetadata.number,
           courseTitle: courseHomeCourseMetadata.title,
           isEnrolled: courseHomeCourseMetadata.isEnrolled,
+          originalUserIsStaff: courseHomeCourseMetadata.originalUserIsStaff,
+          hasCourseAuthorAccess: courseHomeCourseMetadata.hasCourseAuthorAccess,
         }));
       }
     } catch (e) {

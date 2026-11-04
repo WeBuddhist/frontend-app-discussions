@@ -136,6 +136,7 @@ const TinyMCEEditor = (props) => {
           a11y_advanced_options: true,
           autosave_interval: '1s',
           autosave_restore_when_empty: false,
+          placeholder: props.placeholder || 'Write your post...',
           plugins: 'autoresize autosave codesample link lists image imagetools code emoticons charmap paste',
           toolbar: 'undo redo'
                       + ' | formatselect | bold italic underline'

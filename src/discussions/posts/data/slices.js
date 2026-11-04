@@ -191,6 +191,9 @@ const threadsSlice = createSlice({
           ]
           : [...state.pages],
         avatars: { ...state.avatars, ...payload.avatars },
+        totalThreads: state.totalThreads == null || payload.anonymousToPeers
+          ? state.totalThreads
+          : state.totalThreads + 1,
         redirectToThread: { topicId: payload.topicId, threadId: payload.id },
         threadDraft: null,
       }
@@ -265,9 +268,13 @@ const threadsSlice = createSlice({
     deleteThreadSuccess: (state, { payload }) => {
       const { threadId } = payload;
       const { topicId } = state.threadsById[threadId];
+      const wasOnList = state.pages.some(page => page?.includes(threadId));
       return {
         ...state,
         postStatus: RequestStatus.SUCCESSFUL,
+        totalThreads: state.totalThreads == null || !wasOnList
+          ? state.totalThreads
+          : Math.max(0, state.totalThreads - 1),
         threadsInTopic: {
           ...state.threadsInTopic,
           [topicId]: state.threadsInTopic[topicId].filter(item => item !== threadId),
