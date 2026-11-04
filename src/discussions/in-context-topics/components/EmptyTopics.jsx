@@ -42,7 +42,10 @@ const EmptyTopics = ({ openRestrictionDialogue }) => {
   let action;
   let actionText;
 
-  if (!isOnTabletorDesktop) {
+  // The discussions page keeps this pane for tablet widths and up.
+  // In the unit iframe the Add a post button lives only in this pane, so an
+  // empty topic still renders it below that width.
+  if (!isOnTabletorDesktop && !(enableInContextSidebar && !(topicThreadsCount > 0))) {
     return null;
   }
 

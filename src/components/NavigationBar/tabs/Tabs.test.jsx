@@ -41,7 +41,7 @@ describe('Tabs', () => {
 
   it('renders without children', async () => {
     renderComponent();
-    expect(screen.getByRole('button', { text: 'More...', hidden: true })).toBeInTheDocument();
+    expect(screen.getByRole('button', { text: 'More', hidden: true })).toBeInTheDocument();
   });
 
   it('hides invisible children', async () => {

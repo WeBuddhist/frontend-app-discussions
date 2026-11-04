@@ -25,7 +25,7 @@ const EmptyPage = ({
         <h3 className="pt-3 text-gray-500 font-weight-500">{title}</h3>
         {subTitle && <p className="pb-2">{subTitle}</p>}
         {action && actionText && (
-          <Button onClick={action} variant="outline-dark">
+          <Button onClick={action} variant="brand">
             {actionText}
           </Button>
         )}

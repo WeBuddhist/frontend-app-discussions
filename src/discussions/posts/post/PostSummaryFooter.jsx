@@ -5,7 +5,7 @@ import {
   Badge, Icon, OverlayTrigger, Tooltip,
 } from '@openedx/paragon';
 import {
-  People, QuestionAnswer, QuestionAnswerOutline,
+  CheckCircle, People, PushPin, QuestionAnswer, QuestionAnswerOutline,
   StarFilled, StarOutline, ThumbUpFilled, ThumbUpOutline,
 } from '@openedx/paragon/icons';
 import { useSelector } from 'react-redux';
@@ -29,6 +29,9 @@ const PostSummaryFooter = ({
   createdAt,
   preview,
   showNewCountLabel,
+  showAnswered,
+  reported,
+  pinned,
 }) => {
   timeago.register('time-locale', timeLocale);
   const intl = useIntl();
@@ -91,6 +94,35 @@ const PostSummaryFooter = ({
           {intl.formatMessage(messages.newLabel, { count: unreadCommentCount })}
         </Badge>
       )}
+      {(showAnswered || reported || pinned) && (
+        <div className="d-flex align-items-center ml-4.5">
+          {showAnswered && (
+            <Icon
+              data-testid="check-icon"
+              src={CheckCircle}
+              className="text-success font-weight-500 badge-padding mr-2"
+            >
+              <span className="sr-only">{' '}answered</span>
+            </Icon>
+          )}
+          {reported && (
+            <Badge
+              variant="danger"
+              data-testid="reported-post"
+              className="font-weight-500 badge-padding mr-2"
+            >
+              {intl.formatMessage(messages.contentReported)}
+              <span className="sr-only">{' '}reported</span>
+            </Badge>
+          )}
+          {pinned && (
+            <Icon
+              src={PushPin}
+              className="post-summary-icons-dimensions text-gray-700"
+            />
+          )}
+        </div>
+      )}
       <div className="d-flex flex-fill justify-content-end align-items-center">
         {groupId && userHasModerationPrivileges && (
           <OverlayTrigger
@@ -126,11 +158,17 @@ PostSummaryFooter.propTypes = {
   createdAt: PropTypes.string.isRequired,
   preview: PropTypes.bool,
   showNewCountLabel: PropTypes.bool,
+  showAnswered: PropTypes.bool,
+  reported: PropTypes.bool,
+  pinned: PropTypes.bool,
 };
 
 PostSummaryFooter.defaultProps = {
   preview: false,
   showNewCountLabel: false,
+  showAnswered: false,
+  reported: false,
+  pinned: false,
   groupId: null,
   groupName: null,
 };

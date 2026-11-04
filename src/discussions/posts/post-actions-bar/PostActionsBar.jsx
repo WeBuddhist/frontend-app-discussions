@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import {
   Button, Icon, IconButton,
 } from '@openedx/paragon';
-import { Close } from '@openedx/paragon/icons';
+import { Add, Close } from '@openedx/paragon/icons';
 import classNames from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -63,20 +63,28 @@ const PostActionsBar = ({ openRestrictionDialogue }) => {
         </h4>
       )}
       {loadingStatus === RequestStatus.SUCCESSFUL && isUserPrivilegedInPostingRestriction && (
-        <>
-          {!enableInContextSidebar && <div className="border-right border-light-400 mx-3" />}
-          <Button
-            variant={enableInContextSidebar ? 'plain' : 'brand'}
-            className={classNames(
-              'my-0 font-style line-height-24',
-              { 'px-3 py-10px border-0': enableInContextSidebar },
-            )}
+        enableInContextSidebar ? (
+          <IconButton
+            className="mr-2"
+            src={Add}
+            size="sm"
+            iconAs={Icon}
             onClick={handleAddPost}
-            size={enableInContextSidebar ? 'md' : 'sm'}
-          >
-            {intl.formatMessage(messages.addAPost)}
-          </Button>
-        </>
+            alt={intl.formatMessage(messages.addAPost)}
+          />
+        ) : (
+          <>
+            <div className="border-right border-light-400 mx-3" />
+            <Button
+              variant="brand"
+              className="my-0 font-style line-height-24"
+              onClick={handleAddPost}
+              size="sm"
+            >
+              {intl.formatMessage(messages.addAPost)}
+            </Button>
+          </>
+        )
       )}
       {enableInContextSidebar && (
         <>
