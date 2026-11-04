@@ -1,5 +1,4 @@
 import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import MockAdapter from 'axios-mock-adapter';
 import { IntlProvider } from 'react-intl';
 import { Context as ResponsiveContext } from 'react-responsive';
@@ -13,9 +12,7 @@ import { AppProvider } from '@edx/frontend-platform/react';
 import { getApiBaseUrl, Routes as ROUTES } from '../../data/constants';
 import { initializeStore } from '../../store';
 import executeThunk from '../../test-utils';
-import * as selectors from '../data/selectors';
 import messages from '../messages';
-import { showPostEditor } from '../posts/data';
 import fetchCourseTopics from '../topics/data/thunks';
 import EmptyTopics from './EmptyTopics';
 
@@ -79,25 +76,9 @@ describe('EmptyTopics', () => {
     await screen.findByText(messages.noPostSelected.defaultMessage);
   });
 
-  it('should open the confirmation link dialogue box.', async () => {
+  it('does not show an add post button', async () => {
     renderComponent(`/${courseId}/topics/ncwtopic-3/`);
 
-    const addPostButton = screen.getByRole('button', { name: 'Add a post' });
-    await userEvent.click(addPostButton);
-
-    expect(screen.queryByText('Send confirmation link')).toBeInTheDocument();
-  });
-
-  it('should dispatch showPostEditor when email confirmation is not required and user clicks "Add a post"', async () => {
-    jest.spyOn(selectors, 'selectShouldShowEmailConfirmation').mockReturnValue(false);
-
-    const dispatchSpy = jest.spyOn(store, 'dispatch');
-
-    renderComponent(`/${courseId}/topics/ncwtopic-1/`);
-
-    const addPostButton = await screen.findByRole('button', { name: 'Add a post' });
-    await userEvent.click(addPostButton);
-
-    expect(dispatchSpy).toHaveBeenCalledWith(showPostEditor());
+    expect(screen.queryByRole('button', { name: '+ Add a post' })).not.toBeInTheDocument();
   });
 });

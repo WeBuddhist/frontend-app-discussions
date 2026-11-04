@@ -70,9 +70,12 @@ export const useSidebarVisible = () => {
   const isThreadsEmpty = Boolean(useSelector(threadsLoadingStatus()) === RequestStatus.SUCCESSFUL && !totalThreads);
   const matchInContextTopicView = Routes.TOPICS.PATH.find((route) => matchPath({ path: `${route}/*` }, location.pathname));
   const isInContextTopicsView = Boolean(matchInContextTopicView && enableInContext);
+  const inUnitSidebar = new URLSearchParams(location.search).has('inContextSidebar');
   const hideSidebar = Boolean(isThreadsEmpty && !isFiltered && !(isViewingTopics || isViewingLearners));
 
-  if (isInContextTopicsView) {
+  // The unit iframe is narrower than the tablet cutoff, so the empty pane
+  // would otherwise sit off-screen beside a full-width list. Show the pane alone.
+  if (isInContextTopicsView && !(inUnitSidebar && isThreadsEmpty)) {
     return true;
   }
 

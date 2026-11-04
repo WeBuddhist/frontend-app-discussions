@@ -44,6 +44,7 @@ export const PostAvatar = React.memo(({
   const profileImage = getConfig()?.ENABLE_PROFILE_IMAGE === 'true'
     ? Object.values(postUsers ?? {})[0]?.profile?.image
     : null;
+  const avatarSource = profileImage?.hasImage ? profileImage : authorAvatars;
 
   return (
     <div className={avatarSpacing}>
@@ -67,7 +68,7 @@ export const PostAvatar = React.memo(({
           height: avatarSize,
           width: avatarSize,
         }}
-        src={profileImage?.hasImage ? profileImage?.imageUrlSmall : authorAvatars?.imageUrlSmall}
+        src={avatarSource?.imageUrlMedium || avatarSource?.imageUrlSmall}
         alt={author}
       />
     </div>

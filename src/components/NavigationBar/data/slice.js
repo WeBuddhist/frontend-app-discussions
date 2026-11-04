@@ -14,6 +14,8 @@ const slice = createSlice({
     courseTitle: null,
     courseNumber: null,
     isEnrolled: false,
+    originalUserIsStaff: false,
+    hasCourseAuthorAccess: false,
     org: null,
   },
   reducers: {
@@ -49,6 +51,8 @@ const slice = createSlice({
         courseNumber: payload.courseNumber,
         org: payload.org,
         isEnrolled: payload.isEnrolled,
+        originalUserIsStaff: payload.originalUserIsStaff,
+        hasCourseAuthorAccess: payload.hasCourseAuthorAccess,
       }
     ),
   },

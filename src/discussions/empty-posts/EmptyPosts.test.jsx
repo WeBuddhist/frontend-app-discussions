@@ -64,8 +64,8 @@ describe('EmptyPage', () => {
     ).toBeInTheDocument();
 
     expect(
-      screen.queryByRole('button', { name: 'Add a post' }),
-    ).toBeInTheDocument();
+      screen.queryByRole('button', { name: '+ Add a post' }),
+    ).not.toBeInTheDocument();
   });
 
   test('"no post selected" text shown when posts are in system', async () => {
