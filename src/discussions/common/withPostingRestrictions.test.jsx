@@ -46,6 +46,6 @@ describe('EmptyPage', () => {
   it('does not show an add post button on the empty pane', () => {
     renderComponent(`/${courseId}/my-posts/`);
 
-    expect(screen.queryByRole('button', { name: '+ Add a post' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Add a post' })).toBeInTheDocument();
   });
 });

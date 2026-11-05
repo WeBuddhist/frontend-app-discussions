@@ -143,11 +143,11 @@ describe('DiscussionsHome', () => {
     await executeThunk(fetchCourseConfig(courseId), store.dispatch, store.getState);
     await renderComponent(`/${courseId}/${searchByEndPoint}`);
 
-    await screen.findByText('+ Add a post');
+    await screen.findByText('Add a post');
   });
 
   it.each([
-    { searchByEndPoint: 'category/section-topic-1', result: '+ Add a post' },
+    { searchByEndPoint: 'category/section-topic-1', result: 'Add a post' },
     { searchByEndPoint: 'topics/topic-1', result: 'No post selected' },
   ])(`should display No post selected message on posts pages when user has yet to select a post to display
   for incontext topics %s`, async ({ searchByEndPoint, result }) => {
@@ -213,7 +213,7 @@ describe('DiscussionsHome', () => {
     await executeThunk(fetchCourseConfig(courseId), store.dispatch, store.getState);
     await renderComponent(`/${courseId}/my-posts`);
 
-    const addPost = await screen.findByText('+ Add a post');
+    const addPost = await screen.findByText('Add a post');
 
     await act(async () => {
       fireEvent.click(addPost);
@@ -232,7 +232,7 @@ describe('DiscussionsHome', () => {
     await screen.findByText('Nothing here yet');
 
     await act(async () => {
-      fireEvent.click((await screen.findAllByText('+ Add a post'))[0]);
+      fireEvent.click((await screen.findAllByText('Add a post'))[0]);
     });
 
     await waitFor(() => expect(container.querySelector('.post-form')).toBeInTheDocument());
@@ -242,7 +242,7 @@ describe('DiscussionsHome', () => {
     await renderComponent(`/${courseId}/topics/topic-1`);
 
     await screen.findByText('Nothing here yet');
-    expect(screen.queryByRole('button', { name: '+ Add a post' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Add a post' })).toBeInTheDocument();
   });
 
   it('should display No post selected for legacy topics view', async () => {

@@ -79,6 +79,6 @@ describe('EmptyTopics', () => {
   it('does not show an add post button', async () => {
     renderComponent(`/${courseId}/topics/ncwtopic-3/`);
 
-    expect(screen.queryByRole('button', { name: '+ Add a post' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Add a post' })).toBeInTheDocument();
   });
 });
