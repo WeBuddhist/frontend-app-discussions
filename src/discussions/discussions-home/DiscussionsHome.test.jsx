@@ -238,10 +238,11 @@ describe('DiscussionsHome', () => {
     await waitFor(() => expect(container.querySelector('.post-form')).toBeInTheDocument());
   });
 
-  it('should display Add a post button for legacy topics view', async () => {
+  it('should display the empty topic message for legacy topics view', async () => {
     await renderComponent(`/${courseId}/topics/topic-1`);
 
-    await screen.findByText('Add a post');
+    await screen.findByText('Nothing here yet');
+    expect(screen.queryByRole('button', { name: 'Add a post' })).toBeInTheDocument();
   });
 
   it('should display No post selected for legacy topics view', async () => {

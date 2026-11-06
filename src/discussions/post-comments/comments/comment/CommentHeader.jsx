@@ -33,6 +33,7 @@ const CommentHeader = ({
   const profileImage = getConfig()?.ENABLE_PROFILE_IMAGE === 'true'
     ? Object.values(commentUsers ?? {})[0]?.profile?.image
     : null;
+  const avatarSource = profileImage?.hasImage ? profileImage : authorAvatar;
 
   return (
     <div className={classNames('d-flex flex-row justify-content-between', {
@@ -43,7 +44,7 @@ const CommentHeader = ({
         <Avatar
           className={`border-0 ml-0.5 mr-2.5 ${colorClass ? `outline-${colorClass}` : 'outline-anonymous'}`}
           alt={author}
-          src={profileImage?.hasImage ? profileImage?.imageUrlSmall : authorAvatar?.imageUrlSmall}
+          src={avatarSource?.imageUrlMedium || avatarSource?.imageUrlSmall}
           style={{
             width: '32px',
             height: '32px',

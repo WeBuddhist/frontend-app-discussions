@@ -132,6 +132,32 @@ describe('Threads/Posts data layer tests', () => {
       .toHaveProperty('topicId');
     expect(store.getState().threads.threadsById['thread-1'].topicId)
       .toEqual(topicId);
+    expect(store.getState().threads.totalThreads)
+      .toEqual(4);
+  });
+
+  test('does not raise the thread count for a post anonymous to peers', async () => {
+    axiosMock.onGet(threadsApiUrl)
+      .reply(200, Factory.build('threadsResult'));
+    await executeThunk(fetchThreads(courseId), store.dispatch, store.getState);
+
+    axiosMock.onPost(threadsApiUrl)
+      .reply(200, Factory.build('thread', { anonymous_to_peers: true, topic_id: 'test-topic' }));
+
+    await executeThunk(createNewThread({
+      courseId,
+      topicId: 'test-topic',
+      type: 'discussion',
+      title: 'Anonymous',
+      content: 'Hidden from peers',
+      anonymousToPeers: true,
+    }), store.dispatch, store.getState);
+
+    expect(store.getState().threads.totalThreads)
+      .toEqual(3);
+    expect(store.getState().threads.pages[0])
+      .not
+      .toContain('thread-4');
   });
 
   test('successfully handles thread creation for topic that has not been preloaded', async () => {
@@ -151,6 +177,8 @@ describe('Threads/Posts data layer tests', () => {
 
     expect(store.getState().threads.threadsInTopic[topicId])
       .toEqual(['thread-1']);
+    expect(store.getState().threads.totalThreads)
+      .toBeNull();
   });
 
   test('successfully handles 429 rate limit error when creating a thread', async () => {
@@ -206,5 +234,7 @@ describe('Threads/Posts data layer tests', () => {
     expect(store.getState().threads.threadsInTopic['test-topic'])
       .not
       .toContain(threadId);
+    expect(store.getState().threads.totalThreads)
+      .toEqual(2);
   });
 });
