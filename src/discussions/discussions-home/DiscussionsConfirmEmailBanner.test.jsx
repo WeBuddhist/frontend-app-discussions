@@ -48,6 +48,11 @@ describe('DiscussionsConfirmEmailBanner', () => {
   });
 
   describe('render', () => {
+    it('does not show the banner before config has loaded', () => {
+      renderComponent();
+      expect(screen.queryByRole('alert')).toBeNull();
+    });
+
     it('does not show when email is verified', async () => {
       axiosMock.onGet(getDiscussionsConfigUrl(courseId)).reply(200, { isEmailVerified: true });
       await executeThunk(fetchCourseConfig(courseId), store.dispatch, store.getState);

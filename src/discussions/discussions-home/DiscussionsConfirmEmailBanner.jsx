@@ -12,7 +12,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useIntl } from '@edx/frontend-platform/i18n';
 
 import confirmEmailSVG from '../../assets/confirm-email.svg';
-import { selectIsEmailVerified } from '../data/selectors';
+import { RequestStatus } from '../../data/constants';
+import { selectConfigLoadingStatus, selectIsEmailVerified } from '../data/selectors';
 import { sendAccountActivationEmail } from '../posts/data/thunks';
 import messages from './messages';
 
@@ -20,6 +21,7 @@ const DiscussionsConfirmEmailBanner = () => {
   const intl = useIntl();
   const dispatch = useDispatch();
   const isEmailVerified = useSelector(selectIsEmailVerified);
+  const configStatus = useSelector(selectConfigLoadingStatus);
   const [showPageBanner, setShowPageBanner] = useState(!isEmailVerified);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const closePageBanner = useCallback(() => setShowPageBanner(false), [setShowPageBanner]);
@@ -37,7 +39,9 @@ const DiscussionsConfirmEmailBanner = () => {
     closePageBanner();
   }, [closeConfirmModal, closePageBanner]);
 
-  if (isEmailVerified) { return null; }
+  if (configStatus !== RequestStatus.SUCCESSFUL || isEmailVerified) {
+    return null;
+  }
 
   return (
     <>
